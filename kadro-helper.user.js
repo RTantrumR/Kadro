@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Kadroland Detox
+// @name         Kadro Helper
 // @namespace    https://kadroland.com/
 // @version      1.0
 // @description  Приховує рекламний та промо-контент на kadroland.com для редакторів
@@ -11,8 +11,8 @@
 // @grant        GM_registerMenuCommand
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @updateURL    https://raw.githubusercontent.com/RTantrumR/Kadro/main/kadroland-detox.user.js
-// @downloadURL  https://raw.githubusercontent.com/RTantrumR/Kadro/main/kadroland-detox.user.js
+// @updateURL    https://raw.githubusercontent.com/RTantrumR/Kadro/main/kadro-helper.user.js
+// @downloadURL  https://raw.githubusercontent.com/RTantrumR/Kadro/main/kadro-helper.user.js
 // @run-at       document-start
 // ==/UserScript==
 
@@ -370,6 +370,8 @@
 
     // ── Ctrl+K → Insert link (Quill editor shortcut) ────────────────
     function initCtrlK() {
+        if (!/\/news\/editor\b/.test(location.pathname)) return;
+
         document.addEventListener('keydown', (e) => {
             if (!(e.ctrlKey && e.key === 'k')) return;
 

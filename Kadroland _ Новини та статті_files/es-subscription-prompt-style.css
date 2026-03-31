@@ -1,0 +1,740 @@
+.push-notification-prompt {
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    font-family: 'Segoe UI', 'Open Sans', 'Dejavu Sans', Helvetica, 'Helvetica Neue', Arial, sans-serif;
+    color: #000000;
+    text-align: left;
+}
+.push-notification-prompt-btn, .push-notification-prompt-close {
+    font-family: 'Segoe UI', 'Open Sans', 'Dejavu Sans', Helvetica, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.push-notification-prompt-btn {
+    font-size: 13px;
+    padding: 2px 8px 3px;
+    display: inline-block !important;
+    outline: none !important;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background: #fff;
+    text-shadow: none !important;
+}
+.push-notification-accept-btn {
+    margin: 2px 5px;
+    background-color: rgba(252, 124, 171, 1) !important;
+    color: rgba(0, 0, 0, 1) !important;
+}
+
+.push-notification-disallow-btn {
+    background-color: rgba(255, 255, 255, 1) !important;
+    color: rgba(184, 184, 184, 1) !important;
+}
+
+.push-notification-accept-btn:hover {
+    background: #f9f9f9;
+}
+.push-notification-prompt-btn:active {
+    position: relative;
+    top: 1px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.1);
+}
+
+.push-notification-prompt.push-notification-bar {
+    position: relative;
+    border-bottom: 2px solid #FFD400;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.push-notification-bar .push-notification-prompt-message {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+.push-notification-bell-icon {
+    position: relative;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    display: inline-block !important;
+
+}
+
+.push-notification-popover .push-notification-bell-icon {
+    float:left;
+    width: 5%;
+}
+
+.push-notification-popover-top .push-notification-bell-icon,
+.push-notification-popover-bottom .push-notification-bell-icon{
+    margin-right: 10px;
+}
+
+.push-notification-prompt-message span {
+    font-size: 15px;
+}
+.push-notification-prompt-close {
+    position: absolute;
+    right: 0;
+    top: 6px;
+    width: 5%;
+    font-size: 22px !important;
+    text-align: center;
+    border: none !important;
+    background: none !important;
+    outline: none !important;
+    padding: 0 !important;
+}
+
+.push-notification-prompt {
+    position: fixed;
+    z-index: 999999999;
+    background-color: rgba(226, 243, 226, 1);
+}
+
+.push-notification-prompt .push-notification-prompt-close {
+    right: 8px;
+    top: 2px;
+    width: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #727272;
+}
+
+.push-notification-prompt .push-notification-prompt-close:hover {
+    color: #333;
+}
+
+@media (min-width: 769px) {
+    .push-notification-prompt {
+        padding: 12px 15px;
+        border-radius: 2px;
+        border: 1px solid rgba(0,0,0,.2);
+        box-shadow: 0 3px 2px rgba(0,0,0,.15);
+        color: #000 !important;
+    }
+
+    .push-notification-popover {
+        width: 300px;
+        max-width: 380px;
+        left: 90px;
+        top: 6px;
+    }
+
+    .push-notification-popover-top {
+        max-width: 100%;
+        top: 6px;
+        left: 5px;
+        right: 5px;
+    }
+
+    .push-notification-popover-bottom {
+        max-width: 100%;
+        bottom: 6px;
+        left: 5px;
+        right: 5px;
+    }
+
+    .push-notification-popover:before,
+    .push-notification-popover:after {
+        content: '';
+        position: absolute;
+        left: 10px;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid rgba(226, 243, 226, 1);
+    }
+
+    .push-notification-popover:before {
+        top: -6px;
+        border-bottom: 6px solid rgba(0,0,0,.25);
+        z-index: 999997;
+    }
+
+    .push-notification-popover:after {
+        top: -5px;
+        border-bottom: 6px solid rgba(226, 243, 226, 1);
+        z-index: 999998;
+    }
+
+    .push-notification-prompt-message-text {
+        font-size: 12px;
+        display: block;
+        color: #000000 !important;
+        margin-right: 20px;
+    }
+
+    .push-notification-popover .push-notification-prompt-message-text {
+        margin-bottom: 13px;
+        display: inline-block;
+    }
+
+    .push-notification-popover-top .push-notification-prompt-message-text,
+    .push-notification-popover-bottom .push-notification-prompt-message-text {
+        text-align: center;
+    }
+
+    .push-notification-prompt .push-notification-prompt-btn {
+        margin: 0;
+        border-radius: 2px;
+        padding: 5px 10px !important;
+        background-color: #F9F9F9;
+        font-size: 12px;
+        border-color: #BABABA;
+        font-family: 'Segoe UI', 'Open Sans', 'Dejavu Sans', Helvetica, 'Helvetica Neue', Arial, sans-serif;
+        text-transform: none;
+        font-weight: normal;
+        box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    }
+
+    .push-notification-prompt-buttons {
+        text-align: right;
+        margin-bottom: 2px;
+    }
+
+    .push-notification-prompt-inline-buttons {
+        text-align: right;
+        margin-bottom: 2px;
+        padding-left: 50px;
+        display: inline-block;
+    }
+
+    .push-notification-prompt .push-notification-accept-btn {
+        margin-left: 5px;
+    }
+
+    .push-notification-prompt-info {
+        margin-bottom:0;
+    }
+
+    .push-notification-prompt-info .push-notification-bell-icon {
+        margin-left: -15px;
+    }
+
+
+    .push-notification-popover .push-prompt-text {
+        float: left;
+        width: 85%;
+        margin-left: 10px;
+        line-height: 16px;
+    }
+}
+@media (max-width: 768px) {
+    .push-notification-prompt {
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+        top: initial;
+        bottom: 0;
+        padding: 10px 15px;
+        border: 1px solid #CDCDCD;
+        font-family: 'Roboto', Arial, Helvetica, 'Helvetica Neue', 'Dejavu Sans', sans-serif !important;
+        box-shadow: 0 1px 6px rgba(0,0,0,.2) !important;
+    }
+    .push-notification-prompt .push-notification-prompt-message-text {
+        font-size: 14px;
+        display: block;
+        margin-bottom: 10px;
+        color: #000000;
+        display: inline-block;
+    }
+    .push-notification-prompt .push-notification-prompt-message-text:nth-child(1) {
+        margin-bottom: 5px;
+        margin-right: 10px;
+    }
+    .push-notification-prompt .push-notification-prompt-close {
+        font-size: 32px !important;
+        font-weight: normal;
+        line-height: 30px;
+    }
+    .push-notification-prompt-btn {
+        border: none;
+        padding: 6px 12px;
+        font-size: 13px;
+        margin-top:10px;
+    }
+    .push-notification-accept-btn:active {
+        background: #3872d4 !important;
+    }
+    .push-notification-disallow-btn:active {
+        background: #dddddd !important;
+    }
+
+    .push-notification-popover-top .push-notification-prompt-message,
+    .push-notification-popover-bottom .push-notification-prompt-message {
+        text-align: center;
+    }
+
+    .push-notification-popover-top .push-notification-prompt-message-text,
+    .push-notification-popover-bottom .push-notification-prompt-message-text {
+        display:inline-block;
+    }
+
+
+}
+@media (max-width: 380px) {
+    .push-notification-prompt.push-notification-popover {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+    }
+}
+
+.close-prompt {
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 50%;
+}
+.close-prompt:before, .close-prompt:after {
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    content: ' ';
+    height: 10px;
+    width: 2px;
+    background-color: #727272;
+}
+.close-prompt:before {
+    transform: rotate(45deg);
+}
+.close-prompt:after {
+    transform: rotate(-45deg);
+}
+.close-prompt:hover:before, .close-prompt:hover:after {
+    background-color: #ffffff;
+}
+.close-prompt:hover {
+    background-color: #727272;
+}
+
+.webPushSubscriptionPreview--component {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-icon-right {
+    align-items: flex-end;
+}
+
+.webPushSubscriptionPreview {
+    position: relative;
+    bottom: 10px;
+    box-shadow: 0 4px 4px rgba(0,0,0,.25);
+    min-height: 125px;
+    width: 350px;
+    background-color: #ffffff;
+    border: 1px solid #CACACA;
+    border-radius: 1px;
+    box-sizing: border-box;
+}
+
+.webPushSubscriptionPreview--inner {
+    max-width: 990px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: rgba(226, 243, 226, 1);
+    color: #000000 !important;
+}
+
+.webPushSubscriptionPreview--confirm {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.webPushSubscriptionPreview--text {
+    display: inline-block;
+    margin: 30px;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+.webPushSubscriptionPreview--button {
+    max-width: 154px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    box-shadow: none;
+    font-weight: 400;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.webPushSubscriptionPreview--button:hover {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3), 0 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+.webPushSubscriptionPreview--button__accept {
+    background-color: rgba(252, 124, 171, 1) !important;
+    color: rgba(0, 0, 0, 1) !important;
+}
+
+.webPushSubscriptionPreview--button__decline {
+    background-color: rgba(255, 255, 255, 1) !important;
+    color: rgba(184, 184, 184, 1) !important;
+}
+
+.widget-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.widget-icon-wrap img {
+    width: 50px;
+    object-fit: scale-down;
+}
+
+.webPushSubscriptionPreview--widgetTooltip {
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.275);
+    font-size: 13px;
+    font-style: italic;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.webPushSubscriptionPreview--widgetTooltip__notBlocked,
+.webPushSubscriptionPreview--widgetTooltip__blocked{
+    width: 255px;
+}
+
+.vibrate {
+    animation: vibrate 10.3s linear infinite both;
+}
+
+.webPushSubscriptionPreview--widgetTooltip:not(.webPushSubscriptionPreview--widgetTooltip__notBlocked) .widgetTooltip--text,
+.webPushSubscriptionPreview--widgetTooltip:not(.webPushSubscriptionPreview--widgetTooltip__blocked) .widgetTooltip--text{
+    margin-bottom: 10px;
+}
+
+.widgetTooltip--imageContainer {
+    width: 410px;
+    height: 312px;
+}
+
+.widgetTooltip--image {
+    height: 100%;
+}
+
+@keyframes vibrate {
+    0% {
+        transform: translate(0);
+    }
+    2% {
+        transform: translate(-2px, 2px);
+    }
+    4% {
+        transform: translate(-2px, -2px);
+    }
+    6% {
+        transform: translate(2px, 2px);
+    }
+    8% {
+        transform: translate(2px, -2px);
+    }
+    10% {
+        transform: translate(0);
+    }
+    12% {
+        transform: translate(-2px, 2px);
+    }
+    14% {
+        transform: translate(-2px, -2px);
+    }
+    16% {
+        transform: translate(2px, 2px);
+    }
+    18% {
+        transform: translate(2px, -2px);
+    }
+    20% {
+        transform: translate(0);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+.wobble {
+    animation: wobble 10.8s infinite both;
+}
+
+@keyframes wobble {
+    0%,
+    100% {
+        transform: translateX(0%);
+        transform-origin: 50% 50%;
+    }
+    1.5% {
+        transform: translateX(-30px) rotate(-6deg);
+    }
+    3% {
+        transform: translateX(15px) rotate(6deg);
+    }
+    4.5% {
+        transform: translateX(-15px) rotate(-3.6deg);
+    }
+    6% {
+        transform: translateX(9px) rotate(2.4deg);
+    }
+    7.5% {
+        transform: translateX(-6px) rotate(-1.2deg);
+    }
+    10% {
+        transform: translateX(0%);
+        transform-origin: 50% 50%;
+    }
+}
+
+.shake {
+    animation: shake 10.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) infinite both;
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    1%,
+    3%,
+    5%,
+    7% {
+        transform: translateX(-10px);
+    }
+    2%,
+    4%,
+    6% {
+        transform: translateX(10px);
+    }
+    8% {
+        transform: translateX(8px);
+    }
+    9% {
+        transform: translateX(-8px);
+    }
+    10% {
+        transform: translateX(0);
+    }
+}
+
+.jello {
+    animation: jello 10.9s infinite both;
+}
+
+@keyframes jello {
+    0% {
+        transform: scale3d(1, 1, 1);
+    }
+    3% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+    4% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+    5% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+    6.5% {
+        transform: scale3d(0.95, 1.05, 1);
+    }
+    7.5% {
+        transform: scale3d(1.05, 0.95, 1);
+    }
+    10% {
+        transform: scale3d(1, 1, 1);
+    }
+    100% {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+.bounce {
+    animation: bounce 10.9s infinite both;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(-45px);
+        animation-timing-function: ease-in;
+        opacity: 1;
+    }
+    2.4% {
+        opacity: 1;
+    }
+    4% {
+        transform: translateY(-24px);
+        animation-timing-function: ease-in;
+    }
+    6.5% {
+        transform: translateY(-12px);
+        animation-timing-function: ease-in;
+    }
+    8.2% {
+        transform: translateY(-6px);
+        animation-timing-function: ease-in;
+    }
+    9.3% {
+        transform: translateY(-4px);
+        animation-timing-function: ease-in;
+    }
+    2.5%,
+    5.5%,
+    7.5%,
+    8.7% {
+        transform: translateY(0px);
+        animation-timing-function: ease-out;
+    }
+    10% {
+        transform: translateY(0px);
+        animation-timing-function: ease-out;
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0px);
+        animation-timing-function: ease-out;
+        opacity: 1;
+    }
+}
+
+.blink {
+    animation: blink 10.6s infinite both;
+}
+
+@keyframes blink {
+    0%,
+    5%,
+    10%,
+    100% {
+        opacity: 1;
+    }
+    2.5%,
+    7.5% {
+        opacity: 0;
+    }
+}
+
+.flicker {
+    animation: flicker 12.5s linear infinite both;
+}
+
+@keyframes flicker {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    3.298% {
+        opacity: 1;
+    }
+    3.3% {
+        opacity: 0;
+    }
+    3.4% {
+        opacity: 0;
+    }
+    3.402% {
+        opacity: 1;
+    }
+    3.498% {
+        opacity: 1;
+    }
+    3.5% {
+        opacity: 0;
+    }
+    3.59% {
+        opacity: 0;
+    }
+    3.592% {
+        opacity: 1;
+    }
+    3.898% {
+        opacity: 1;
+    }
+    3.9% {
+        opacity: 0;
+    }
+    3.98% {
+        opacity: 0;
+    }
+    3.982% {
+        opacity: 1;
+    }
+    8.398% {
+        opacity: 1;
+    }
+    8.4% {
+        opacity: 0;
+    }
+    8.49% {
+        opacity: 0;
+    }
+    8.492% {
+        opacity: 1;
+    }
+    84.92% {
+        opacity: 1;
+    }
+}
+
+.ping {
+    animation: ping 10.8s ease-in-out infinite both;
+}
+
+@keyframes ping {
+    0%,
+    16% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    8% {
+        transform: scale(2.2);
+        opacity: 0;
+    }
+}
+
+.pulse-box-shadow {
+    animation: pulse-box-shadow 2s infinite;
+}
+
+@keyframes pulse-box-shadow {
+    0% {
+        box-shadow: 0 0 0 0 currentColor;
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
