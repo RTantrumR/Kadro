@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         kadro-det-helper
 // @namespace    https://kadroland.com/
-// @version      1.5
+// @version      1.4
 // @description  Приховує рекламний та промо-контент на kadroland.com для редакторів
 // @author       kadroland-tools
 // @match        https://kadroland.com/*
@@ -73,85 +73,6 @@
     }
     function setEnabled(key, value) {
         GM_setValue('detox_' + key, value);
-    }
-    // Whether to play the "show me what just toggled" animation (on by default)
-    function isAnimEnabled() {
-        return GM_getValue('detox_showAnim', true);
-    }
-    function setAnimEnabled(value) {
-        GM_setValue('detox_showAnim', value);
-    }
-
-    // ── Toggle animation helpers ──────────────────────────────────────
-    // Collect every currently-present DOM node matching a bloat key's selectors.
-    function collectDetoxElements(key) {
-        const sels = (BLOAT[key] && BLOAT[key].selectors) || [];
-        const set = new Set();
-        for (const sel of sels) {
-            try {
-                document.querySelectorAll(sel).forEach((el) => set.add(el));
-            } catch (e) { /* e.g. :has() unsupported — skip that selector */ }
-        }
-        return [...set];
-    }
-
-    // Draw a red arrow from the centre of the screen to a target element.
-    function showDetoxArrow(target) {
-        removeDetoxArrow();
-        const r = target.getBoundingClientRect();
-        const cx = window.innerWidth / 2;
-        const cy = window.innerHeight / 2;
-        const tx = r.left + r.width / 2;
-        const ty = r.top + r.height / 2;
-
-        const svgNS = 'http://www.w3.org/2000/svg';
-        const svg = document.createElementNS(svgNS, 'svg');
-        svg.id = 'kd-detox-arrow';
-        svg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
-        Object.assign(svg.style, {
-            position: 'fixed', inset: '0', width: '100vw', height: '100vh',
-            zIndex: '2147483640', pointerEvents: 'none', opacity: '0',
-            transition: 'opacity 0.25s ease',
-            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.35))',
-        });
-
-        // Stop the line just shy of the target box so the head sits beside it.
-        const dx = tx - cx, dy = ty - cy;
-        const len = Math.hypot(dx, dy) || 1;
-        const pad = Math.min(len - 6, Math.max(r.width, r.height) / 2 + 18);
-        const ex = tx - (dx / len) * pad;
-        const ey = ty - (dy / len) * pad;
-
-        const defs = document.createElementNS(svgNS, 'defs');
-        const marker = document.createElementNS(svgNS, 'marker');
-        marker.setAttribute('id', 'kd-arrowhead');
-        marker.setAttribute('markerUnits', 'userSpaceOnUse');
-        marker.setAttribute('markerWidth', '24');
-        marker.setAttribute('markerHeight', '24');
-        marker.setAttribute('refX', '16');
-        marker.setAttribute('refY', '8');
-        marker.setAttribute('orient', 'auto');
-        const head = document.createElementNS(svgNS, 'path');
-        head.setAttribute('d', 'M0,0 L18,8 L0,16 Z');
-        head.setAttribute('fill', '#ed3434');
-        marker.appendChild(head);
-        defs.appendChild(marker);
-
-        const line = document.createElementNS(svgNS, 'line');
-        line.setAttribute('x1', cx); line.setAttribute('y1', cy);
-        line.setAttribute('x2', ex); line.setAttribute('y2', ey);
-        line.setAttribute('stroke', '#ed3434');
-        line.setAttribute('stroke-width', '4');
-        line.setAttribute('stroke-linecap', 'round');
-        line.setAttribute('marker-end', 'url(#kd-arrowhead)');
-
-        svg.append(defs, line);
-        document.body.appendChild(svg);
-        requestAnimationFrame(() => { svg.style.opacity = '1'; });
-    }
-    function removeDetoxArrow() {
-        const a = document.getElementById('kd-detox-arrow');
-        if (a) a.remove();
     }
 
     // ── CSS injection ─────────────────────────────────────────────────
@@ -320,30 +241,6 @@
             }
             .kd-btn-none:hover { background: #e4e4e4; }
 
-            /* "Show me what toggled" setting row */
-            .kd-anim-row {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 12px 22px;
-                border-top: 1px solid #f0f0f0;
-                cursor: pointer;
-                user-select: none;
-            }
-            .kd-anim-row:hover { background: #fafafa; }
-            .kd-anim-checkbox {
-                width: 16px;
-                height: 16px;
-                accent-color: #ed3434;
-                cursor: pointer;
-                flex-shrink: 0;
-            }
-            .kd-anim-label {
-                font-size: 13px;
-                color: #555;
-                line-height: 1.3;
-            }
-
             /* Trigger button */
             #kd-detox-trigger {
                 position: fixed;
@@ -415,12 +312,8 @@
             list.appendChild(item);
 
             input.addEventListener('change', () => {
-                if (isAnimEnabled()) {
-                    animateToggle(key, input.checked);
-                } else {
-                    setEnabled(key, input.checked);
-                    applyCSS();
-                }
+                setEnabled(key, input.checked);
+                applyCSS();
             });
         }
 
@@ -449,20 +342,7 @@
             applyCSS();
         });
 
-        // ── "Show me what toggled" animation setting ──
-        const animRow = document.createElement('label');
-        animRow.className = 'kd-anim-row';
-        const animCheckbox = document.createElement('input');
-        animCheckbox.type = 'checkbox';
-        animCheckbox.className = 'kd-anim-checkbox';
-        animCheckbox.checked = isAnimEnabled();
-        const animLabel = document.createElement('span');
-        animLabel.className = 'kd-anim-label';
-        animLabel.textContent = 'Показувати, що саме перемкнулося (анімація + стрілка)';
-        animRow.append(animCheckbox, animLabel);
-        animCheckbox.addEventListener('change', () => setAnimEnabled(animCheckbox.checked));
-
-        panel.append(header, list, animRow, footer);
+        panel.append(header, list, footer);
         document.body.appendChild(panel);
 
         // ── Trigger button ──
@@ -481,59 +361,6 @@
             panel.classList.remove('kd-open');
             overlay.classList.remove('kd-open');
         }
-
-        // ── Animated toggle: briefly close the panel, fade the affected
-        //    container in/out, and point a red arrow at it, then reopen. ──
-        let kdAnimating = false;
-        function animateToggle(key, willHide) {
-            // Re-entrancy guard: if an animation is mid-flight, just apply.
-            if (kdAnimating) { setEnabled(key, willHide); applyCSS(); return; }
-
-            const FADE = 600, HOLD = 550, SCROLL = 400, CLOSE = 280;
-            let cleanupEls = [];
-
-            if (!willHide) {
-                // Showing: drop the hide rule first so we can measure + fade in,
-                // but start at opacity 0 so it doesn't flash before the arrow.
-                setEnabled(key, false);
-                cleanupEls = collectDetoxElements(key);
-                cleanupEls.forEach((el) => { el.style.transition = 'none'; el.style.opacity = '0'; });
-                applyCSS();
-            }
-
-            const els = collectDetoxElements(key).filter((el) => el.getClientRects().length);
-            if (willHide) cleanupEls = els;
-            const target = els[0];
-
-            const clear = () => cleanupEls.forEach((el) => { el.style.transition = ''; el.style.opacity = ''; });
-
-            // Nothing visible on this page (e.g. selector absent) → apply silently.
-            if (!target) { setEnabled(key, willHide); applyCSS(); clear(); return; }
-
-            kdAnimating = true;
-            closePanel();
-
-            setTimeout(() => {
-                target.scrollIntoView({ block: 'center', behavior: 'smooth' });
-                setTimeout(() => {
-                    showDetoxArrow(target);
-                    if (willHide) {
-                        els.forEach((el) => { el.style.transition = `opacity ${FADE}ms ease`; el.style.opacity = '0'; });
-                    } else {
-                        els.forEach((el) => { el.style.transition = `opacity ${FADE}ms ease`; });
-                        requestAnimationFrame(() => els.forEach((el) => { el.style.opacity = '1'; }));
-                    }
-                    setTimeout(() => {
-                        removeDetoxArrow();
-                        if (willHide) { setEnabled(key, true); applyCSS(); }
-                        clear();
-                        kdAnimating = false;
-                        openPanel();
-                    }, FADE + HOLD);
-                }, SCROLL);
-            }, CLOSE);
-        }
-
         trigger.addEventListener('click', openPanel);
         closeBtn.addEventListener('click', closePanel);
         overlay.addEventListener('click', closePanel);
