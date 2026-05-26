@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         kadro-det-helper
 // @namespace    https://kadroland.com/
-// @version      1.2
+// @version      1.3
 // @description  Приховує рекламний та промо-контент на kadroland.com для редакторів
 // @author       kadroland-tools
 // @match        https://kadroland.com/*
@@ -51,7 +51,7 @@
         },
         importantWidget: {
             label: 'Блок «Важливо» (бічна панель)',
-            selectors: ['.widget-important'],
+            selectors: ['.contain:has(.widget-important)', '.widget-important'],
         },
         adBanner: {
             label: 'Рекламний банер / калькулятор',
