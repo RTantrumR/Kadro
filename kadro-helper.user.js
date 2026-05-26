@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Kadro Helper
+// @name         kadro-det-helper
 // @namespace    https://kadroland.com/
-// @version      1.1
+// @version      1.2
 // @description  Приховує рекламний та промо-контент на kadroland.com для редакторів
 // @author       kadroland-tools
 // @match        https://kadroland.com/*
