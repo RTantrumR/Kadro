@@ -49,6 +49,10 @@
             label: 'Безкоштовні вебінари (бічна панель)',
             selectors: ['.widget-webinars'],
         },
+        importantWidget: {
+            label: 'Блок «Важливо» (бічна панель)',
+            selectors: ['.widget-important'],
+        },
         adBanner: {
             label: 'Рекламний банер / калькулятор',
             selectors: ['.ad-banner'],
