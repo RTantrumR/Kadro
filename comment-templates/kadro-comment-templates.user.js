@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Kadroland Helper
 // @namespace    https://kadroland.com/
-// @version      8.0
+// @version      8.1
 // @description  Advanced template editor with UTF-8 Export and Code Generator
-// @author       Gemini & User
+// @author       Tantrum
 // @match        https://kadroland.com/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/RTantrumR/Kadro/main/kadro-comment-templates.user.js
-// @downloadURL  https://raw.githubusercontent.com/RTantrumR/Kadro/main/kadro-comment-templates.user.js
+// @updateURL    https://raw.githubusercontent.com/RTantrumR/Kadro/main/comment-templates/kadro-comment-templates.user.js
+// @downloadURL  https://raw.githubusercontent.com/RTantrumR/Kadro/main/comment-templates/kadro-comment-templates.user.js
 // ==/UserScript==
 
 (function() {
