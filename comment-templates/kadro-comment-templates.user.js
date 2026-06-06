@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kadroland Helper
 // @namespace    https://kadroland.com/
-// @version      1.8
+// @version      1.9
 // @description  Advanced template editor with UTF-8 Export and Code Generator
 // @author       Tantrum
 // @match        https://kadroland.com/*
@@ -14,7 +14,7 @@
     'use strict';
 
     const STORAGE_KEY = 'kadro_templates';
-    const LEGACY_KEY = 'kadro_templates_v6'; // pre-rename key; read once to migrate saved templates
+    const LEGACY_KEY = 'kadro_templates_v6'; // old key; migrated into STORAGE_KEY once on first load
     const DEFAULT_TEMPLATES = [
         {
             label: "💙🧡 Після короткої відповіді",
@@ -90,9 +90,13 @@
         }
     ];
 
-    let templates = JSON.parse(localStorage.getItem(STORAGE_KEY))
-        || JSON.parse(localStorage.getItem(LEGACY_KEY)) // migrate from old key if present
-        || DEFAULT_TEMPLATES;
+    // Safe JSON read + one-time migration: if the new key was never written, seed it from the old key.
+    const readTemplates = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
+    if (localStorage.getItem(STORAGE_KEY) === null) {
+        const legacy = readTemplates(LEGACY_KEY);
+        if (Array.isArray(legacy) && legacy.length) localStorage.setItem(STORAGE_KEY, JSON.stringify(legacy));
+    }
+    let templates = readTemplates(STORAGE_KEY) || DEFAULT_TEMPLATES;
     let activeEditIndex = 0;
 
     const saveToDisk = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(templates));
