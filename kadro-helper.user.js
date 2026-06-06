@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         kadro-det-helper
 // @namespace    https://kadroland.com/
-// @version      1.7
+// @version      1.8
 // @description  Приховує рекламний та промо-контент на kadroland.com для редакторів
 // @author       Tantrum
 // @match        https://kadroland.com/*
@@ -19,7 +19,7 @@
 (function () {
     'use strict';
 
-    // ── Bloat definitions ──────────────────────────────────────────────
+    // Bloat groups — each is a toggle. `selectors` → hidden via display:none; `css` → raw CSS injected as-is.
     const BLOAT = {
         pushNotifications: {
             label: 'Push-сповіщення',
@@ -65,9 +65,13 @@
             label: 'Промо-модальне вікно (підписка)',
             selectors: ['div.modal[style*="pop_up"]'],
         },
+        shadowFocus: {
+            label: 'Затемнення сторінки при наведенні',
+            css: '.shadowfocus_bg { opacity: 0 !important; }',
+        },
     };
 
-    // ── Settings (persisted via Tampermonkey storage) ──────────────────
+    // Per-key on/off, persisted in Tampermonkey storage.
     function isEnabled(key) {
         return GM_getValue('detox_' + key, true);
     }
@@ -75,29 +79,29 @@
         GM_setValue('detox_' + key, value);
     }
 
-    // ── CSS injection ─────────────────────────────────────────────────
+    // Stylesheet rebuilt on every toggle.
     const styleEl = document.createElement('style');
     styleEl.id = 'kadroland-detox-rules';
     (document.head || document.documentElement).appendChild(styleEl);
 
     function applyCSS() {
-        const selectors = [];
-        for (const [key, { selectors: sels }] of Object.entries(BLOAT)) {
-            if (isEnabled(key)) selectors.push(...sels);
+        const rules = [];
+        for (const [key, def] of Object.entries(BLOAT)) {
+            if (!isEnabled(key)) continue;
+            if (def.selectors) rules.push(def.selectors.join(',') + ' { display: none !important; }');
+            if (def.css) rules.push(def.css);
         }
-        styleEl.textContent = selectors.length
-            ? selectors.join(',\n') + ' { display: none !important; }\n'
-            : '';
+        styleEl.textContent = rules.join('\n');
     }
 
     applyCSS();
 
-    // ── Settings panel (built after DOM is ready) ─────────────────────
+    // Settings panel, built after the DOM is ready.
     function buildPanel() {
         const panel = document.createElement('div');
         panel.id = 'kd-detox-panel';
 
-        // ── Panel styles ──
+        // Panel styles
         const panelCSS = document.createElement('style');
         panelCSS.textContent = `
             #kd-detox-panel {
@@ -269,12 +273,12 @@
         `;
         document.head.appendChild(panelCSS);
 
-        // ── Overlay ──
+        // Overlay
         const overlay = document.createElement('div');
         overlay.id = 'kd-detox-overlay';
         document.body.appendChild(overlay);
 
-        // ── Panel HTML ──
+        // Header
         const header = document.createElement('div');
         header.className = 'kd-header';
         header.innerHTML = '<h2>Kadroland Detox</h2>';
@@ -345,14 +349,14 @@
         panel.append(header, list, footer);
         document.body.appendChild(panel);
 
-        // ── Trigger button ──
+        // Floating trigger button
         const trigger = document.createElement('button');
         trigger.id = 'kd-detox-trigger';
         trigger.title = 'Kadroland Detox';
         trigger.innerHTML = '&#x1F9F9;'; // broom emoji
         document.body.appendChild(trigger);
 
-        // ── Open / close ──
+        // Open / close
         function openPanel() {
             panel.classList.add('kd-open');
             overlay.classList.add('kd-open');
@@ -366,7 +370,7 @@
         overlay.addEventListener('click', closePanel);
     }
 
-    // ── Tampermonkey menu fallback ────────────────────────────────────
+    // Tampermonkey menu fallback
     GM_registerMenuCommand('Відкрити Detox панель', () => {
         const panel = document.getElementById('kd-detox-panel');
         const overlay = document.getElementById('kd-detox-overlay');
@@ -376,7 +380,7 @@
         }
     });
 
-    // ── Ctrl+K → Insert link (Quill editor shortcut) ────────────────
+    // Ctrl+K → insert-link in the Quill editor
     function initCtrlK() {
         if (!/\/news\/editor\b/.test(location.pathname)) return;
 
@@ -397,7 +401,7 @@
         }, true); // capture phase — before the browser's default Ctrl+K
     }
 
-    // ── Wait for DOM ──────────────────────────────────────────────────
+    // Init
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => { buildPanel(); initCtrlK(); });
     } else {

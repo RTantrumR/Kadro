@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kadroland Helper
 // @namespace    https://kadroland.com/
-// @version      8.1
+// @version      1.8
 // @description  Advanced template editor with UTF-8 Export and Code Generator
 // @author       Tantrum
 // @match        https://kadroland.com/*
@@ -13,7 +13,8 @@
 (function() {
     'use strict';
 
-    const STORAGE_KEY = 'kadro_templates_v6';
+    const STORAGE_KEY = 'kadro_templates';
+    const LEGACY_KEY = 'kadro_templates_v6'; // pre-rename key; read once to migrate saved templates
     const DEFAULT_TEMPLATES = [
         {
             label: "💙🧡 Після короткої відповіді",
@@ -89,12 +90,14 @@
         }
     ];
 
-    let templates = JSON.parse(localStorage.getItem(STORAGE_KEY)) || DEFAULT_TEMPLATES;
+    let templates = JSON.parse(localStorage.getItem(STORAGE_KEY))
+        || JSON.parse(localStorage.getItem(LEGACY_KEY)) // migrate from old key if present
+        || DEFAULT_TEMPLATES;
     let activeEditIndex = 0;
 
     const saveToDisk = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(templates));
 
-    // --- STYLES ---
+    // Editor modal + injected toolbar styles
     const style = document.createElement('style');
     style.textContent = `
         .kh-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; }
@@ -122,7 +125,12 @@
             position: absolute; bottom: 25px; right: 0; width: 250px; background: #1f2937; color: white; padding: 10px; border-radius: 8px; font-size: 12px; line-height: 1.4; z-index: 10000;
         }
         .kh-item-btn { background: none; border: none; cursor: pointer; padding: 5px; font-size: 16px; color: #9ca3af; }
-        .kh-gear-btn { background: #4b5563; color: white; border: none; width: 44px; height: 44px; border-radius: 12px; margin-right: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        /* Injected comment-toolbar controls — matched to the site's .k-btn pills (40px, radius 25px, red hover) */
+        .kh-gear-btn { width: 40px; height: 40px; margin-right: 12px; border: 1px solid #e3e3e3; border-radius: 50%; background: #f4f4f4; color: #555; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.15s; }
+        .kh-gear-btn:hover { background: #ececec; color: #232323; }
+        .ai-template-select { height: 40px; width: 220px; padding: 0 38px 0 18px; border: 1px solid #e0e0e0; border-radius: 25px; background-color: #fff; color: #232323; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; appearance: none; outline: none; transition: 0.15s; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 14px center; background-size: 18px; }
+        .ai-template-select:hover { border-color: #ed3434; color: #ed3434; }
+        .ai-template-select.kh-flash { background-color: #10b981 !important; border-color: #10b981 !important; color: #fff !important; }
     `;
     document.head.appendChild(style);
 
@@ -291,18 +299,12 @@
 
             const gearBtn = document.createElement('button');
             gearBtn.className = 'kh-gear-btn';
-            gearBtn.innerHTML = '⚙️';
+            gearBtn.title = 'Керування шаблонами';
+            gearBtn.textContent = '⚙︎'; // text-style gear (takes button color)
             gearBtn.onclick = (e) => { e.preventDefault(); openEditor(); };
 
             const select = document.createElement('select');
             select.className = 'ai-template-select';
-            select.style.cssText = `
-                background-color: #2563eb; color: white; border: none; padding: 0 35px 0 15px;
-                border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 600;
-                height: 44px; width: 220px; appearance: none; outline: none;
-                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-                background-repeat: no-repeat; background-position: right 10px center; background-size: 18px;
-            `;
             updateDropdownOptions(select);
 
             select.onchange = () => {
@@ -313,9 +315,9 @@
                 textarea.value = newValue;
                 textarea.dispatchEvent(new Event('input', { bubbles: true }));
                 if (textarea._vmodel) textarea._vmodel.value = newValue;
-                select.style.backgroundColor = '#10b981';
-                setTimeout(() => { select.style.backgroundColor = '#2563eb'; }, 500);
                 select.value = "";
+                select.classList.add('kh-flash');                       // brief green success flash
+                setTimeout(() => select.classList.remove('kh-flash'), 450);
             };
 
             wrapper.appendChild(gearBtn);

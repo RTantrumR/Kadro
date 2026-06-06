@@ -5,7 +5,7 @@ This folder is the working tree of the GitHub repo **`RTantrumR/Kadro`**. It shi
 ## Scripts
 
 - **`kadro-helper.user.js`** (repo root) — "detox": hides ad/promo bloat for editors on kadroland.com and 7eminar.ua. A `BLOAT` registry (`key → {label, selectors}`) injects `display:none`; a floating broom-button panel toggles each entry, persisted via `GM_setValue`. Also a Ctrl+K → insert-link shortcut on `/news/editor`.
-- **`comment-templates/kadro-comment-templates.user.js`** — injects a template-picker dropdown + ⚙️ editor into `.comment-form` on kadroland.com. Templates live in `localStorage['kadro_templates_v6']`; the in-code `DEFAULT_TEMPLATES` is a fallback only, so editing it does **not** overwrite templates a user has already saved.
+- **`comment-templates/kadro-comment-templates.user.js`** — injects a template-picker dropdown + ⚙ editor into `.comment-form` on kadroland.com, styled to match the site's `.k-btn` pills (40px, radius 25px, red hover). Templates live in `localStorage['kadro_templates']` (migrated once from the old `kadro_templates_v6` key); the in-code `DEFAULT_TEMPLATES` is a fallback only, so editing it does **not** overwrite templates a user has already saved.
 
 `*.html` and `*_files/` are reference page snapshots used to find selectors — gitignored.
 
