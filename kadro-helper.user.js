@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         kadro-det-helper
 // @namespace    https://kadroland.com/
-// @version      1.8
+// @version      1.9
 // @description  Приховує рекламний та промо-контент на kadroland.com для редакторів
 // @author       Tantrum
 // @match        https://kadroland.com/*
@@ -56,6 +56,10 @@
         academyPromo: {
             label: 'Промо-банер академії (бічна панель)',
             selectors: ['.academy-promo'],
+        },
+        googleSourceBanner: {
+            label: 'Банер «Улюблені джерела Google»',
+            selectors: ['.google-source-banner'],
         },
         adBanner: {
             label: 'Рекламний банер / калькулятор',
